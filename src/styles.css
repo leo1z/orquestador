@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Tokens del sistema de diseño Orquestador IA 101 (dirección Órbita).
+   Fuente: https://claude.ai/artifact/DQKkAauu4RjG64y2jWmSfP — si cambian allá, se cambian aquí. */
+@theme {
+  --color-space-950: #141318;
+  --color-space-900: #1e1d26;
+  --color-line: #2c2a38;
+  --color-line-strong: #4a4757;
+  --color-ink: #ede7da;
+  --color-ink-muted: #8f8a99;
+  --color-panel: #ede7da;
+  --color-panel-sunk: #f7f3ea;
+  --color-panel-ink: #18171d;
+  --color-panel-muted: #5c5766;
+  --color-violet: #5b55e0;
+  --color-on-violet: #ffffff;
+  --color-violet-text: #a9a4f7;
+  --color-violet-soft: #2a2760;
+  --color-violet-deep: #3f3a9c;
+  --color-planet-glow: #6c66f0;
+  --color-coral: #f0915f;
+  --color-coral-fill: #e8734a;
+  --color-coral-ink: #8a3517;
+  --color-success: #5fcf93;
+
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --radius-md: 14px;
+  --radius-lg: 22px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-space-950);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-violet-text);
+  outline-offset: 2px;
+}
+
+/* Etiqueta tipo especificación: MÓDULO 04 / 22, TRIGGER, IF… */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

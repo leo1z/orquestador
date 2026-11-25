@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "orquestador",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    // La SPA de React. /api/* siempre pasa primero por el Worker (Hono).
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "orquestador",
+      // Reemplazar con el id que devuelve: npx wrangler d1 create orquestador
+      "database_id": "REEMPLAZAR_CON_ID_DE_D1",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}
