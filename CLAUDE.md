@@ -30,7 +30,7 @@ npm install
 npm run db:migrate:local   # crea las tablas en la D1 local
 npm run dev                # app + API en http://localhost:5173
 npm run build              # tsc -b && vite build (debe quedar en verde antes de cada commit)
-npm run deploy             # build + wrangler deploy (requiere database_id real en wrangler.jsonc)
+npm run deploy             # build + wrangler deploy (la D1 remota ya existe y tiene 0001 aplicada)
 ```
 
 ## Cómo trabajamos

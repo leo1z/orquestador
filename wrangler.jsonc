@@ -12,8 +12,8 @@
     {
       "binding": "DB",
       "database_name": "orquestador",
-      // Reemplazar con el id que devuelve: npx wrangler d1 create orquestador
-      "database_id": "REEMPLAZAR_CON_ID_DE_D1",
+      // Base creada el 25 nov 2026 en la cuenta de Leo (región ENAM). Tablas de 0001_init.sql ya aplicadas.
+      "database_id": "589b54af-5106-4082-8ace-fc2ca94b07da",
       "migrations_dir": "migrations"
     }
   ],
