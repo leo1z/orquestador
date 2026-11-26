@@ -38,7 +38,7 @@ npm run deploy             # build + wrangler deploy (la D1 remota ya existe y t
 1. **Un módulo a la vez, siempre con el caso A** (piloto: pasaporte de evento, chaqueta de jean con pines). Los otros casos se abren cuando el caso A recorre los 22 módulos.
 2. Cada módulo tiene 5 pasos: **Concepto, Ejercicios, Lab, Aplicar al caso, Check**. Antes de programar uno, escribe su ficha en `docs/labs.md`.
 3. **Definición de terminado de un módulo:** los 5 pasos funcionan en celular y computadora; el entregable se guarda en el expediente y se exporta en Markdown; una persona sin experiencia lo completa sin ayuda en menos de 90 minutos; todo lo obligatorio funciona con cuentas gratis; el instructor ve el avance.
-4. Agregar un caso = solo contenido (datos de ejemplo, plantillas, preguntas del builder), no código nuevo de plataforma.
+4. Agregar un caso = solo contenido en `shared/content.ts` (`brief` con la explicación, `canvas` con ejemplo y sugerencias del lienzo, datos de ejemplo y plantillas), no código nuevo de plataforma.
 5. Commits pequeños, en español, con `npm run build` en verde.
 
 ## Reglas que no se negocian

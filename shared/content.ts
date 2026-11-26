@@ -28,7 +28,42 @@ export interface CaseTemplate {
   example: string; // ejemplo de referencia
   open: boolean; // si ya se puede elegir (el piloto es A)
   canvas?: CaseCanvas; // guía del lienzo para este caso: ejemplo y sugerencias por pregunta
+  brief?: CaseBrief; // explicación del caso: qué es, cómo funciona y qué se personaliza
 }
+
+// Explicación de un caso para quien lo elige. Todo caso abierto debe traerla.
+export interface CaseBrief {
+  what: string; // qué se construye, en 2 o 3 frases
+  flow: string[]; // cómo lo usa la gente, 3 a 5 pasos
+  roles: { name: string; does: string }[];
+  keep: string; // la mecánica que no cambia
+  personalize: { what: string; examples: string }[];
+  outcome: string; // con qué termina la persona al final del curso
+}
+
+const CASE_A_BRIEF: CaseBrief = {
+  what:
+    "Una app web para un evento con stands. Cada asistente tiene un pasaporte digital: en el ejemplo, una chaqueta de jean que va llenando con pines cada vez que visita un stand. Cuando compra, desbloquea una personalización de su chaqueta.",
+  flow: [
+    "El asistente entra a la app con su nombre",
+    "Escanea el QR de un stand y gana un pin",
+    "Compra en el stand; el emprendedor la registra y se desbloquea una personalización",
+    "Comparte su chaqueta terminada; el organizador ve visitas y ventas por stand",
+  ],
+  roles: [
+    { name: "Asistente", does: "Visita stands, colecciona y personaliza" },
+    { name: "Emprendedor", does: "Muestra su QR, registra ventas y ve sus visitas" },
+    { name: "Organizador", does: "Administra los stands y ve los resultados del evento" },
+  ],
+  keep: "Visitar o comprar desbloquea algo. Esa mecánica se mantiene; todo lo demás lo cambias por algo que conozcas.",
+  personalize: [
+    { what: "El evento", examples: "Feria navideña, mercado de emprendedores, festival de música, feria universitaria, congreso" },
+    { what: "Qué se colecciona", examples: "Pines en una chaqueta, sellos en un pasaporte, estampas en un álbum, cartas" },
+    { what: "Qué se desbloquea al comprar", examples: "Colores y parches, un descuento, una entrada a un sorteo, un premio final" },
+    { what: "Los roles", examples: "Mínimo quien visita y quien atiende el stand; el organizador es opcional" },
+  ],
+  outcome: "Tu app publicada con su propia dirección web, su código en GitHub y una campaña para promocionarla.",
+};
 
 // Guía de una pregunta del lienzo para un caso: la respuesta del ejemplo de referencia
 // y 3 o 4 sugerencias que la persona puede elegir y editar.
@@ -119,7 +154,7 @@ export const MODULES: Module[] = [
 ];
 
 export const CASES: CaseTemplate[] = [
-  { id: "A", name: "Web app de evento", template: "Pasaporte coleccionable: visitar o comprar desbloquea algo", choices: "El evento, qué se colecciona y qué se desbloquea", example: "Chaqueta de jean que se decora con pines; cada compra desbloquea una personalización", open: true, canvas: CASE_A_CANVAS },
+  { id: "A", name: "Web app de evento", template: "Pasaporte coleccionable: visitar o comprar desbloquea algo", choices: "El evento, qué se colecciona y qué se desbloquea", example: "Chaqueta de jean que se decora con pines; cada compra desbloquea una personalización", open: true, canvas: CASE_A_CANVAS, brief: CASE_A_BRIEF },
   { id: "C", name: "Landing + automatización", template: "Lanzar algo propio y dar seguimiento a cada interesado", choices: "Qué lanza y por dónde da seguimiento (correo o Telegram)", example: "Landing de un taller de fotografía con lista de espera", open: false },
   { id: "B", name: "Website de negocio", template: "Sitio de un negocio real, propio o de alguien cercano", choices: "El negocio y el rubro: catálogo, historia, contacto", example: "Tienda de ropa local", open: false },
   { id: "D", name: "Automatización personal", template: "Quitarse una tarea repetida de la vida diaria", choices: "Gastos, hábitos o estudio, pagos y recordatorios, organizador de clases", example: "Gastos por Telegram → hoja → resumen semanal", open: false },

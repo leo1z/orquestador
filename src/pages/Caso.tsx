@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CANVAS_QUESTIONS, CASES, type CaseId, type Personalization } from "../../shared/content";
+import { CANVAS_QUESTIONS, CASES, type CaseBrief, type CaseId, type Personalization } from "../../shared/content";
 import { api, type Me } from "../lib/api";
 import { navigate } from "../lib/router";
 import { Guide, btnPrimary, btnSecondary } from "../components/ui";
@@ -11,7 +11,8 @@ export function Caso({ me, onSaved }: { me: Me; onSaved: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const guide = CASES.find((c) => c.id === caseId)?.canvas;
+  const selectedCase = CASES.find((c) => c.id === caseId);
+  const guide = selectedCase?.canvas;
   const answered = CANVAS_QUESTIONS.filter((q) => answers[q.key]?.trim()).length;
 
   // Llena solo las preguntas vacías con el ejemplo de referencia; lo que ya escribió se respeta.
@@ -72,6 +73,8 @@ export function Caso({ me, onSaved }: { me: Me; onSaved: () => void }) {
           );
         })}
       </fieldset>
+
+      {selectedCase?.brief && <CaseExplainer id={selectedCase.id} name={selectedCase.name} brief={selectedCase.brief} />}
 
       <section className="grid gap-4 rounded-[22px] bg-panel p-6 text-panel-ink">
         <h2 className="font-display text-xl font-bold">Lienzo de personalización</h2>
@@ -155,5 +158,65 @@ export function Caso({ me, onSaved }: { me: Me; onSaved: () => void }) {
         Usar el ejemplo está bien para arrancar. Antes del demo day cambia al menos el evento y quién lo prueba por algo tuyo.
       </Guide>
     </div>
+  );
+}
+
+// Explica el caso elegido antes del lienzo: qué es, cómo se usa, qué se mantiene y qué se personaliza.
+function CaseExplainer({ id, name, brief }: { id: string; name: string; brief: CaseBrief }) {
+  return (
+    <section aria-labelledby="caso-explicado" className="grid gap-6 rounded-[22px] border border-line bg-space-900 p-6">
+      <div>
+        <p className="eyebrow m-0 text-violet-text">Caso {id} · qué vas a construir</p>
+        <h2 id="caso-explicado" className="mt-2 font-display text-2xl font-bold">{name}</h2>
+        <p className="mt-2 max-w-3xl text-ink-muted">{brief.what}</p>
+      </div>
+
+      <div>
+        <h3 className="eyebrow m-0 text-ink-muted">Cómo lo usa la gente</h3>
+        <ol className="mt-3 grid list-none gap-3 p-0 md:grid-cols-4">
+          {brief.flow.map((step, i) => (
+            <li key={step} className="grid gap-2 rounded-[14px] border border-line p-4">
+              <span className="font-mono text-xs text-violet-text">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-sm">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <div>
+          <h3 className="eyebrow m-0 text-ink-muted">Quién la usa</h3>
+          <dl className="mt-3 grid gap-2">
+            {brief.roles.map((r) => (
+              <div key={r.name} className="grid grid-cols-[110px_1fr] gap-3 text-sm">
+                <dt className="font-bold">{r.name}</dt>
+                <dd className="m-0 text-ink-muted">{r.does}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div>
+          <h3 className="eyebrow m-0 text-ink-muted">Lo que no cambia</h3>
+          <p className="mt-3 text-sm">{brief.keep}</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="eyebrow m-0 text-ink-muted">Cómo lo haces tuyo</h3>
+        <dl className="mt-3 grid gap-3 md:grid-cols-2">
+          {brief.personalize.map((p) => (
+            <div key={p.what} className="rounded-[14px] border border-line p-4">
+              <dt className="text-sm font-bold">{p.what}</dt>
+              <dd className="m-0 mt-1 text-sm text-ink-muted">{p.examples}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <p className="m-0 border-t border-line pt-4 text-sm">
+        <span className="font-bold">Al terminar el curso tendrás: </span>
+        {brief.outcome}
+      </p>
+    </section>
   );
 }
