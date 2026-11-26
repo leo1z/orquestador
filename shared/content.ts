@@ -27,7 +27,61 @@ export interface CaseTemplate {
   choices: string; // lo que la persona personaliza
   example: string; // ejemplo de referencia
   open: boolean; // si ya se puede elegir (el piloto es A)
+  canvas?: CaseCanvas; // guía del lienzo para este caso: ejemplo y sugerencias por pregunta
 }
+
+// Guía de una pregunta del lienzo para un caso: la respuesta del ejemplo de referencia
+// y 3 o 4 sugerencias que la persona puede elegir y editar.
+export interface CanvasGuide {
+  demo: string;
+  options: string[];
+}
+export type CaseCanvas = Record<CanvasKey, CanvasGuide>;
+
+const CASE_A_CANVAS: CaseCanvas = {
+  who: {
+    demo: "Asistentes de una feria navideña de emprendedores y los dueños de cada stand",
+    options: [
+      "Asistentes de un mercado de emprendedores y sus vendedores",
+      "Público de un festival de música y las marcas con stand",
+      "Visitantes de una feria universitaria y los grupos que exponen",
+      "Participantes de un congreso y sus patrocinadores",
+    ],
+  },
+  problem: {
+    demo: "Los stands del fondo casi no reciben visitas y la gente se va sin recorrer toda la feria",
+    options: [
+      "La gente no sabe qué stands hay ni dónde están",
+      "Los emprendedores no saben cuántas personas pasan por su stand",
+      "Nadie tiene un motivo para comprar en más de un stand",
+      "Al terminar el evento no queda ningún recuerdo ni forma de volver a contactar",
+    ],
+  },
+  data: {
+    demo: "Entra: el QR escaneado en cada stand y las compras que registra el emprendedor. Sale: pines ganados, personalizaciones desbloqueadas y visitas por stand",
+    options: [
+      "Entra: escaneos de QR por stand. Sale: pines ganados y progreso de cada asistente",
+      "Entra: compras registradas por cada emprendedor. Sale: personalizaciones desbloqueadas y ventas por stand",
+      "Entra: el nombre del asistente al registrarse. Sale: su colección y un resumen al final del evento",
+    ],
+  },
+  success: {
+    demo: "Cada stand recibe al menos 30 visitas durante la feria",
+    options: [
+      "La mitad de los asistentes desbloquea al menos 5 pines",
+      "Las ventas por stand suben frente a la edición anterior",
+      "Al menos 8 de cada 10 emprendedores quieren repetir la dinámica",
+    ],
+  },
+  tester: {
+    demo: "Una emprendedora que vende en la feria y dos amigos que la visitan",
+    options: [
+      "Un emprendedor que conozco y dos personas que irían al evento",
+      "Mi equipo de la pasantía, haciéndose pasar por asistentes",
+      "La persona que organiza el evento",
+    ],
+  },
+};
 
 export const PHASES: Phase[] = [
   { id: "F0", name: "Arranque" },
@@ -65,7 +119,7 @@ export const MODULES: Module[] = [
 ];
 
 export const CASES: CaseTemplate[] = [
-  { id: "A", name: "Web app de evento", template: "Pasaporte coleccionable: visitar o comprar desbloquea algo", choices: "El evento, qué se colecciona y qué se desbloquea", example: "Chaqueta de jean que se decora con pines; cada compra desbloquea una personalización", open: true },
+  { id: "A", name: "Web app de evento", template: "Pasaporte coleccionable: visitar o comprar desbloquea algo", choices: "El evento, qué se colecciona y qué se desbloquea", example: "Chaqueta de jean que se decora con pines; cada compra desbloquea una personalización", open: true, canvas: CASE_A_CANVAS },
   { id: "C", name: "Landing + automatización", template: "Lanzar algo propio y dar seguimiento a cada interesado", choices: "Qué lanza y por dónde da seguimiento (correo o Telegram)", example: "Landing de un taller de fotografía con lista de espera", open: false },
   { id: "B", name: "Website de negocio", template: "Sitio de un negocio real, propio o de alguien cercano", choices: "El negocio y el rubro: catálogo, historia, contacto", example: "Tienda de ropa local", open: false },
   { id: "D", name: "Automatización personal", template: "Quitarse una tarea repetida de la vida diaria", choices: "Gastos, hábitos o estudio, pagos y recordatorios, organizador de clases", example: "Gastos por Telegram → hoja → resumen semanal", open: false },
@@ -74,12 +128,13 @@ export const CASES: CaseTemplate[] = [
 ];
 
 // Lienzo de personalización: 5 preguntas que alimentan todo el expediente.
+// hint = cómo personalizar la respuesta; why = para qué sirve en el resto del curso.
 export const CANVAS_QUESTIONS = [
-  { key: "who", label: "¿Para quién es?", hint: "Una persona real, con nombre" },
-  { key: "problem", label: "¿Qué problema le resuelve hoy?", hint: "Lo que le cuesta tiempo, dinero o ganas" },
-  { key: "data", label: "¿Qué datos maneja?", hint: "Lo que entra y lo que sale" },
-  { key: "success", label: "¿Cómo sabrá que funcionó?", hint: "Un número o un cambio visible" },
-  { key: "tester", label: "¿Quién lo va a probar antes del demo day?", hint: "Nombre de la persona" },
+  { key: "who", label: "¿Para quién es?", hint: "Piensa en un evento o negocio que conozcas de verdad y en las personas que lo usarían.", why: "Define a quién le hablas en el brief, el diseño y la campaña." },
+  { key: "problem", label: "¿Qué problema le resuelve hoy?", hint: "Escribe lo que pasa hoy sin tu app, como lo diría esa persona. Evita describir la solución.", why: "Es la base del problem statement del módulo 02." },
+  { key: "data", label: "¿Qué datos maneja?", hint: "Separa lo que entra (lo que alguien registra) de lo que sale (lo que la app muestra o calcula).", why: "Se convierte en tu schema de base de datos en el módulo 11." },
+  { key: "success", label: "¿Cómo sabrá que funcionó?", hint: "Un número o un cambio que se pueda ver el día del evento.", why: "Será tu criterio de éxito del MVP en el módulo 05." },
+  { key: "tester", label: "¿Quién lo va a probar antes del demo day?", hint: "Solo nombres o roles: alguien a quien puedas escribirle esta semana.", why: "Sin alguien que lo pruebe, el demo day es una suposición." },
 ] as const;
 
 export type CanvasKey = (typeof CANVAS_QUESTIONS)[number]["key"];

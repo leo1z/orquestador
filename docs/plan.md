@@ -14,7 +14,7 @@ Primero pasantes y equipo Digital de OPSA Marketing; preparado para abrirse a cu
 
 ## Casos (plantillas personalizables)
 
-Al elegir caso, la persona responde el lienzo de 5 preguntas: para quién es, qué problema resuelve, qué datos maneja, cómo sabrá que funcionó y quién lo prueba.
+Al elegir caso, la persona responde el lienzo de 5 preguntas: para quién es, qué problema resuelve, qué datos maneja, cómo sabrá que funcionó y quién lo prueba. El lienzo es guiado: cada pregunta trae cómo personalizarla, para qué sirve, la respuesta del ejemplo de referencia y 3 o 4 sugerencias que se eligen y se editan (`canvas` de cada caso en `shared/content.ts`). Un caso nuevo debe traer su `canvas`.
 
 | Caso | Plantilla | Ejemplo de referencia | Orden |
 | --- | --- | --- | --- |
